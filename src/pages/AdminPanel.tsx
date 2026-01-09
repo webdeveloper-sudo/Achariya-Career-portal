@@ -351,8 +351,16 @@ export default function AdminPanel() {
   //     setLoading(false);
   //   }
   // };
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   const startEdit = (opening: JobOpening) => {
+    scrollToTop();
     setEditingId(opening.id);
     setFormData({
       ...opening,
