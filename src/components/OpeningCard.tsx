@@ -32,10 +32,14 @@ export default function JobOpeningsSection({ openings }: Props) {
               </h3>
 
               <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-4">
-                <span className="flex items-center">
+               {
+                job.department === '-'|| job.department === '' ? null : (
+                  <span className="flex items-center">
                   <Building className="w-4 h-4 mr-1 shrink-0" />
                   <span className="truncate">{job.department}</span>
                 </span>
+                ) 
+               }
                 <span className="flex items-center">
                   <MapPin className="w-4 h-4 mr-1 shrink-0" />
                   <span className="truncate">

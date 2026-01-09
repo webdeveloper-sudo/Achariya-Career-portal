@@ -102,10 +102,13 @@ export default function JobPostFullDetails() {
                   {job.roleTitle}
                 </h1>
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-3">
-                  <span className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
+                  { job.department === '-'|| job.department === '' ? null : (
+                    <span className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                     <Building className="w-4 h-4 mr-2" />
                     {job.department}
                   </span>
+                  )
+                }
                   <span className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                     <MapPin className="w-4 h-4 mr-2" />
                     {Array.isArray(job.location)

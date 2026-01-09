@@ -35,6 +35,7 @@ export default function CategoryOpenings({ category }: Props) {
         setLoading(true);
         const allJobs = await jobService.getAllJobs();
         setOpenings(allJobs.filter((job) => job.category === category));
+        console.log(allJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error);
       } finally {
