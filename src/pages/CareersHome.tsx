@@ -15,7 +15,7 @@ import { jobService } from "../services/jobService";
 import college from "../assets/college_campus_modern_1767347532376.png";
 import school from "../assets/school_modern_classroom_1767347506078.png";
 import corporate from "../assets/corporate_modern_office_1767347559347.png";
-import acahriyalogonew from "../assets/Achariya-Logo-01-scaled.avif";
+// import acahriyalogonew from "../assets/Achariya-Logo-01-scaled.avif";
 
 export default function CareersHome() {
   const [counts, setCounts] = useState({
@@ -50,12 +50,6 @@ export default function CareersHome() {
   return (
     <div className="min-h-screen font-sans text-gray-900 overflow-x-hidden">
       {/* ================= HEADER ================= */}
-      <header className=" w-full  bg-[#C72323] shadow-lg">
-        <div className="container mx-auto px-6 py-1 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white">Achariya Careers</h1>
-          <img src={acahriyalogonew} alt="Achariya" width={80} />
-        </div>
-      </header>
 
       <main className=" bg-white/70 container mx-auto">
         {/* ================= HERO ================= */}

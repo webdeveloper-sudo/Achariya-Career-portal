@@ -65,7 +65,12 @@ export async function submitApplication(
       resumeBase64: resumeBase64,
     };
 
+    if (!APPS_SCRIPT_URL) {
+      throw new Error("Application Script URL is not configured");
+    }
+
     // Send to Google Apps Script
+    // Using no-cors mode to avoid CORS errors from Google Apps Script
     await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       mode: "no-cors",

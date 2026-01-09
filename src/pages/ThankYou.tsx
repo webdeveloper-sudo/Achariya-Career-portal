@@ -39,12 +39,12 @@ export default function ThankYou() {
                     </div>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                     <p className="text-sm text-blue-900">
                         <FileText className="w-5 h-5 inline mr-2" />
                         You will receive a confirmation email shortly with your application details.
                     </p>
-                </div>
+                </div> */}
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Link to="/" className="btn-primary">

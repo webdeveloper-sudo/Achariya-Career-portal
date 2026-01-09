@@ -4,11 +4,19 @@ import CategoryOpenings from "./pages/CategoryOpenings";
 import JobPostFullDetails from "./components/JobPostFullDetails";
 import ThankYou from "./pages/ThankYou";
 import AdminPanel from "./pages/AdminPanel";
+import NotFound from "./pages/NotFound";
+import SubmissionFailure from "./pages/SubmissionFailure";
 import "./index.css";
+import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
+      <div className="md:mb-20 lg:mb-[90px]">
+        <Navbar />
+      </div>
       <Routes>
         <Route path="/" element={<CareersHome />} />
         <Route
@@ -29,6 +37,8 @@ function App() {
         />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/submission-failure" element={<SubmissionFailure />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

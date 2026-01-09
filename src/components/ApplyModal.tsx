@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, Upload, Loader } from "lucide-react";
+import { X, Upload, Loader, AlertTriangle } from "lucide-react";
 import type { JobOpening } from "../services/jobService";
 import { submitApplication } from "../services/applicationService";
 import FeedbackModal from "./FeedbackModal";
@@ -48,26 +48,22 @@ export default function ApplyModal({ opening, onClose }: Props) {
     setModalConfig((prev) => ({ ...prev, isOpen: false }));
   };
 
-const [formData, setFormData] = useState({
-  fullName: "Test Candidate",
-  dob: "1998-06-15",
-  email: "test.candidate@example.com",
-  phone: "9876543210",
-
-  previousCompany: "ABC Technologies Pvt Ltd",
-  previousDOJ: "2022-01-10",
-  lastWorkingDate: "2025-01-20",
-  noticePeriodDays: "30",
-  lastWorkingDay: "2025-02-19",
-
-  currentCTC: "4",
-  expectedCTC: "6",
-  experience: "3",
-
-  preferredLocation: "Puducherry",
-  consent: true,
-});
-
+  const [formData, setFormData] = useState({
+    fullName: "",
+    dob: "",
+    email: "",
+    phone: "",
+    previousCompany: "",
+    previousDOJ: "",
+    lastWorkingDate: "",
+    noticePeriodDays: "",
+    lastWorkingDay: "",
+    currentCTC: "",
+    expectedCTC: "",
+    experience: "",
+    preferredLocation: "",
+    consent: false,
+  });
 
   // Safe location array
   // @ts-ignore
@@ -158,7 +154,7 @@ const [formData, setFormData] = useState({
         ...formData,
         category: opening.category,
         roleTitle: opening.roleTitle,
-        location: openingLocations.join(", "), // Pass all locations string representation
+        location: openingLocations.join(", "),
         resume: resumeFile,
       });
 
@@ -172,12 +168,15 @@ const [formData, setFormData] = useState({
       });
     } catch (error) {
       console.error("Submission error:", error);
-      showModal(
-        "error",
-        "Submission Failed",
-        "Failed to submit application. Please try again."
-      );
-      setLoading(false);
+
+      navigate("/submission-failure", {
+        state: {
+          error:
+            error instanceof Error
+              ? error.message
+              : "Application submission failed",
+        },
+      });
     }
   };
 
@@ -220,8 +219,7 @@ const [formData, setFormData] = useState({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name {" "}
-                  <span className="text-red-500">*</span>
+                  Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -267,8 +265,7 @@ const [formData, setFormData] = useState({
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Mobile{" "}
-                  <span className="text-red-500">*</span>
+                  Mobile <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -315,8 +312,7 @@ const [formData, setFormData] = useState({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Previous Company{" "}
-                    <span className="text-red-500">*</span>
+                    Previous Company <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -546,6 +542,15 @@ const [formData, setFormData] = useState({
                 )}
               </button>
             </div>
+            {loading && (
+              <div className="flex gap-2 p-3 max-w-[80%] ms-auto justify-end border-b border-yellow-500 bg-yellow-50 pt-2">
+                <AlertTriangle size={20} className="text-yellow-500"/>
+                <p className="text-end text-sm text-gray-800 capitalize">
+                Please Don't Refresh Or Leave the tab while submitting Your
+                Application !
+              </p>
+              </div>
+            )}
           </form>
         </div>
       </div>

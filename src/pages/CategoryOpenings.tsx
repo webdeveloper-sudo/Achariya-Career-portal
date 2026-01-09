@@ -111,10 +111,10 @@ export default function CategoryOpenings({ category }: Props) {
   }, [openings, searchQuery, selectedDept, selectedLoc, dateRange]);
 
   const categoryColors = {
-    School: "from-blue-500 to-blue-700",
-    College: "from-purple-500 to-purple-700",
-    Corporate: "from-teal-500 to-teal-700",
-    Others: "from-gray-500 to-gray-700",
+    School: "blue-500",
+    College: "purple-500",
+    Corporate: "teal-500",
+    Others: "gray-500",
   };
 
   const clearFilters = () => {
@@ -139,18 +139,22 @@ export default function CategoryOpenings({ category }: Props) {
 
   return (
     <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto ">
+        <Link
+          to="/"
+          className="inline-flex items-center ms-5 text-gray-600 hover:text-gray-600 py-4 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to All Categories
+        </Link>
+      </div>
+
       {/* Header */}
       <header
-        className={`bg-gradient-to-r ${categoryColors[category]} text-white shadow-lg`}
+        className={`text-${categoryColors[category]}  max-w-7xl  px-4 mx-auto `}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Link
-            to="/"
-            className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to All Categories
-          </Link>
+       <div className="bg-gray-200 p-3 rounded-xl">
+         <div className="max-w-7xl mx-auto bg-gray-100  rounded-2xl shadow-lg px-4 sm:px-6 lg:px-8 pt-8 pb-10">
           <div className="flex items-center gap-4">
             <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
               <img
@@ -163,16 +167,17 @@ export default function CategoryOpenings({ category }: Props) {
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                 {category} Openings
               </h1>
-              <p className="text-white/90 text-lg mt-1 font-medium">
+              <p className="text-gray-600/90 text-lg mt-1 font-medium">
                 {openings.length} positions available
               </p>
             </div>
           </div>
         </div>
+       </div>
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 -mt-6">
+      <div className="max-w-7xl mx-auto px-4 py-8 -mt-6">
         {/* Search & Filter Toolbar */}
         <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 mb-4">
           <div className="flex flex-col xl:flex-row gap-6">

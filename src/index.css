@@ -29,6 +29,9 @@ code {
   box-sizing: border-box;
 }
 
+*,body{
+  scroll-behavior: smooth;
+}
 /* Theme variables */
 :root {
   --bg-primary: #ffffff;
