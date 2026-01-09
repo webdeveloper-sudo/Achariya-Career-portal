@@ -25,7 +25,7 @@ import {
   type User,
 } from "firebase/auth";
 import { jobService, type JobOpening } from "../services/jobService";
-import { jobSeeds } from "../data/jobSeeds";
+// import { jobSeeds } from "../data/jobSeeds";
 import FeedbackModal from "../components/FeedbackModal";
 
 type DateRange = "all" | "7days" | "30days" | "6months";
@@ -324,33 +324,33 @@ export default function AdminPanel() {
     );
   };
 
-  const handleSeed = async () => {
-    setLoading(true);
-    let successCount = 0;
-    try {
-      for (const job of jobSeeds) {
-        // Sanity check to avoid duplicates (optional, based on appId)
-        const existing = await jobService.getJobByApplicationId(
-          job.applicationId
-        );
-        if (!existing) {
-          await jobService.addJob(job);
-          successCount++;
-        }
-      }
-      showModal(
-        "success",
-        "Database Seeded",
-        `Successfully added ${successCount} new job openings.`
-      );
-      await loadOpenings();
-    } catch (error) {
-      console.error("Seeding error:", error);
-      showModal("error", "Seeding Failed", "Failed to seed database.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleSeed = async () => {
+  //   setLoading(true);
+  //   let successCount = 0;
+  //   try {
+  //     for (const job of jobSeeds) {
+  //       // Sanity check to avoid duplicates (optional, based on appId)
+  //       const existing = await jobService.getJobByApplicationId(
+  //         job.applicationId
+  //       );
+  //       if (!existing) {
+  //         await jobService.addJob(job);
+  //         successCount++;
+  //       }
+  //     }
+  //     showModal(
+  //       "success",
+  //       "Database Seeded",
+  //       `Successfully added ${successCount} new job openings.`
+  //     );
+  //     await loadOpenings();
+  //   } catch (error) {
+  //     console.error("Seeding error:", error);
+  //     showModal("error", "Seeding Failed", "Failed to seed database.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const startEdit = (opening: JobOpening) => {
     setEditingId(opening.id);
