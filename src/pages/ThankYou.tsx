@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import { CheckCircle, Home, FileText } from 'lucide-react';
+import { CheckCircle, Home } from 'lucide-react';
 
 export default function ThankYou() {
     const location = useLocation();
