@@ -14,7 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="md:mb-20 lg:mb-[90px]">
+      <div className=" md:mb-[90px] lg:mb-[90px] mb-[100px]">
         <Navbar />
       </div>
       <Routes>

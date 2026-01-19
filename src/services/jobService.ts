@@ -20,7 +20,7 @@ export interface JobOpening {
   location: string[]; // Changed to array
 
   // New Fields
-  center: string;
+  center: string[];
   experience: string;
   qualifications: string[];
   skills: string[]; // Required Skills
@@ -37,7 +37,7 @@ export interface JobOpening {
 
 const JOBS_COLLECTION = "jobs";
 
-// Helper to ensure location is always an array
+// Helper to ensure location and center are always arrays
 const formatJobData = (id: string, data: any): JobOpening => {
   return {
     id,
@@ -46,6 +46,11 @@ const formatJobData = (id: string, data: any): JobOpening => {
       ? data.location
       : data.location
       ? [data.location]
+      : [],
+    center: Array.isArray(data.center)
+      ? data.center
+      : data.center
+      ? [data.center]
       : [],
   } as JobOpening;
 };

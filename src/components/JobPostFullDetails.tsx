@@ -49,7 +49,7 @@ export default function JobPostFullDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+       <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
         <Loader className="w-8 h-8 animate-spin text-teal-600" />
       </div>
     );
@@ -102,13 +102,12 @@ export default function JobPostFullDetails() {
                   {job.roleTitle}
                 </h1>
                 <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-3">
-                  { job.department === '-'|| job.department === '' ? null : (
+                  {job.department === "-" || job.department === "" ? null : (
                     <span className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
-                    <Building className="w-4 h-4 mr-2" />
-                    {job.department}
-                  </span>
-                  )
-                }
+                      <Building className="w-4 h-4 mr-2" />
+                      {job.department}
+                    </span>
+                  )}
                   <span className="flex items-center bg-white px-3 py-1 rounded-full shadow-sm">
                     <MapPin className="w-4 h-4 mr-2" />
                     {Array.isArray(job.location)
@@ -147,7 +146,7 @@ export default function JobPostFullDetails() {
               </div>
               <div>
                 <span className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Openings
+                    No.of.Openings
                 </span>
                 <span className="text-gray-900 font-medium">
                   {job.numberOfPositions || "Not Specified"}
@@ -155,10 +154,12 @@ export default function JobPostFullDetails() {
               </div>
               <div>
                 <span className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Center
+                  Location
                 </span>
                 <span className="text-gray-900 font-medium">
-                  {job.center || "Not Specified"}
+                  {Array.isArray(job.location)
+                    ? job.location.join(", ")
+                    : job.location || "Not Specified"}
                 </span>
               </div>
               <div>

@@ -13,6 +13,7 @@ interface ApplicationData {
   expectedCTC: string;
   experience: string;
   preferredLocation: string;
+  preferredCampuses?: string[];
   category: string;
   roleTitle: string;
   location: string;
@@ -60,6 +61,10 @@ export async function submitApplication(
       expectedCTC: data.expectedCTC || "",
       experience: data.experience || "",
       preferredLocation: data.preferredLocation || "",
+      preferredCampuses:
+        data.preferredCampuses && data.preferredCampuses.length > 0
+          ? data.preferredCampuses.join(", ")
+          : "",
       resumeFileName: data.resume.name,
       resumeFileType: data.resume.type,
       resumeBase64: resumeBase64,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Building2,
   GraduationCap,
@@ -43,6 +43,7 @@ export default function CareersHome() {
     fetchCounts();
   }, []);
 
+  const navigate = useNavigate()
   const getCount = (key: keyof typeof counts) => (loading ? "—" : counts[key]);
 
   const totalOpenings = counts.School + counts.College + counts.Corporate;
@@ -53,63 +54,17 @@ export default function CareersHome() {
 
       <main className=" bg-white/70 container mx-auto">
         {/* ================= HERO ================= */}
-        <section className="text-center py-16 max-w-4xl mx-auto">
+        <section className="text-center pt-16 pb-10 md:px-0 px-4 max-w-5xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
             Build Your Career with{" "}
-            <span className="text-[#C72323]">Achariya</span>
+            <span className="text-[#C72323]">ACHARIYA</span>
           </h1>
-          <p className="text-lg text-gray-600">
-            Join a multi-institutional education group shaping future leaders
-            across Schools, Colleges, and Corporate divisions.
+          <p className=" text-gray-600">
+            Join a multi-institutional education group dedicated to shaping future leaders through a strong ecosystem that spans Schools, Colleges, and Corporate divisions, fostering academic excellence, practical skills, and industry-ready professionals.
           </p>
         </section>
 
-        {/* ================= TRUST STATS ================= */}
-        <section className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-          {[
-            { label: "Institutions", value: "36+" },
-            { label: "Employees", value: "2500+" },
-            { label: "Years of Excellence", value: "25+" },
-            { label: "Open Positions", value: totalOpenings },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl border shadow-sm py-8 text-center hover:shadow-md transition"
-            >
-              <p className="text-3xl font-extrabold text-[#C72323]">
-                {loading ? "—" : item.value}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">{item.label}</p>
-            </div>
-          ))}
-        </section>
-
-        <hr className="py-4 pb-12 container mx-12" />
-
-        {/* ================= WHO WE ARE ================= */}
-        <section className="max-w-4xl mx-auto text-center px-6 mb-12">
-          <h2 className="text-3xl font-bold mb-4">
-            Who We Are <span className="text-[#C72323]">?</span>
-          </h2>
-          <p className="text-gray-600 leading-relaxed text-lg">
-            Achariya is committed to academic excellence, innovation, and
-            inclusive growth. We empower educators, administrators, and
-            professionals to build meaningful long-term careers.
-          </p>
-
-          <div className="mt-4 flex flex-wrap justify-center gap-6 text-sm">
-            {["Ethical Leadership", "Transparent Hiring", "Career Growth"].map(
-              (item, i) => (
-                <span key={i} className="flex items-center gap-2 text-gray-700">
-                  <CheckCircle2 className="text-green-600 w-5 h-5" />
-                  {item}
-                </span>
-              )
-            )}
-          </div>
-        </section>
-
-        {/* ================= CATEGORIES ================= */}
+          {/* ================= CATEGORIES ================= */}
         <section id="categories" className="max-w-7xl mx-auto px-6 mb-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -168,6 +123,54 @@ export default function CareersHome() {
             ))}
           </div>
         </section>
+
+      
+
+        <hr className="md:py-4 py-1 pb-12 container mx-12" />
+
+        {/* ================= WHO WE ARE ================= */}
+        <section className="max-w-4xl mx-auto text-center px-6 mb-12">
+          <h2 className="text-3xl font-bold mb-4">
+            Who We Are <span className="text-[#C72323]">?</span>
+          </h2>
+          <p className="text-gray-600 leading-relaxed text-lg">
+            ACHARIYA is committed to academic excellence, innovation, and
+            inclusive growth. We empower educators, administrators, and
+            professionals to build meaningful long-term careers.
+          </p>
+
+          <div className="mt-4 flex flex-wrap justify-center gap-6 text-sm">
+            {["Ethical Leadership", "Transparent Hiring", "Career Growth"].map(
+              (item, i) => (
+                <span key={i} className="flex items-center gap-2 text-gray-700">
+                  <CheckCircle2 className="text-green-600 w-5 h-5" />
+                  {item}
+                </span>
+              )
+            )}
+          </div>
+        </section>
+          {/* ================= TRUST STATS ================= */}
+        <section className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+          {[
+            { label: "Institutions", value: "36+" },
+            { label: "Employees", value: "2500+" },
+            { label: "Years of Excellence", value: "25+" },
+            { label: "Open Positions", value: totalOpenings },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-xl border shadow-sm py-8 text-center hover:shadow-md transition"
+            >
+              <p className="text-3xl font-extrabold text-[#C72323]">
+                {loading ? "—" : item.value}
+              </p>
+              <p className="text-sm text-gray-600 mt-2">{item.label}</p>
+            </div>
+          ))}
+        </section>
+
+      
         {/* ================= CTA ================= */}
         <section className="py-20 text-center bg-gradient-to-r from-[#C72323] to-red-700 text-white">
           <h2 className="text-3xl font-bold mb-4">
@@ -193,7 +196,7 @@ export default function CareersHome() {
         <section className="bg-white/70 py-20">
           <div className="max-w-6xl bg-white/70 mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-12">
-              Why Choose Achariya <span className="text-[#C72323]">?</span>
+              Why Choose ACHARIYA <span className="text-[#C72323]">?</span>
             </h2>
 
             <div className="bg-white/70 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -232,7 +235,7 @@ export default function CareersHome() {
 
       {/* ================= FOOTER ================= */}
       <footer className="bg-gray-900 text-gray-400 py-10 text-center">
-        <p className="text-white font-semibold mb-2">Achariya Careers</p>
+        <p className="text-white font-semibold mb-2">ACHARIYA Careers</p>
         <p className="text-sm">
           © {new Date().getFullYear()} Achariya Group. All rights reserved.
         </p>

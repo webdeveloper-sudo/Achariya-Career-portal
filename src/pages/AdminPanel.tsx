@@ -25,7 +25,7 @@ import {
   type User,
 } from "firebase/auth";
 import { jobService, type JobOpening } from "../services/jobService";
-// import { jobSeeds } from "../data/jobSeeds";
+import { departments, locations, centers } from "../data/globaldata";
 import FeedbackModal from "../components/FeedbackModal";
 
 type DateRange = "all" | "7days" | "30days" | "6months";
@@ -70,7 +70,7 @@ export default function AdminPanel() {
     roleTitle: "",
     department: "",
     location: ["Puducherry"],
-    center: "",
+    center: [],
     experience: "",
     numberOfPositions: "",
     description: "",
@@ -104,16 +104,6 @@ export default function AdminPanel() {
   };
 
   // Derived Options for Selects
-  const departments = useMemo(() => {
-    return Array.from(new Set(openings.map((j) => j.department))).sort();
-  }, [openings]);
-
-  const locations = useMemo(() => {
-    const allLocs = openings.flatMap((j) =>
-      Array.isArray(j.location) ? j.location : [j.location]
-    );
-    return Array.from(new Set(allLocs)).sort();
-  }, [openings]);
 
   // Comprehensive Filtering Logic
   const filteredOpenings = useMemo(() => {
@@ -248,7 +238,7 @@ export default function AdminPanel() {
         roleTitle: formData.roleTitle || "",
         department: formData.department || "",
         location: cleanLocations.length > 0 ? cleanLocations : ["Puducherry"],
-        center: formData.center || "",
+        center: formData.center || [],
         experience: formData.experience || "",
         numberOfPositions: formData.numberOfPositions || "",
         description: formData.description || "",
@@ -282,7 +272,7 @@ export default function AdminPanel() {
         roleTitle: formData.roleTitle || "",
         department: formData.department || "",
         location: cleanLocations.length > 0 ? cleanLocations : ["Puducherry"],
-        center: formData.center || "",
+        center: formData.center || [],
         experience: formData.experience || "",
         numberOfPositions: formData.numberOfPositions || "",
         description: formData.description || "",
@@ -351,7 +341,7 @@ export default function AdminPanel() {
   //     setLoading(false);
   //   }
   // };
-  
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -367,6 +357,11 @@ export default function AdminPanel() {
       location: Array.isArray(opening.location)
         ? opening.location
         : [opening.location || "Puducherry"],
+      center: Array.isArray(opening.center)
+        ? opening.center
+        : opening.center
+        ? [opening.center as unknown as string]
+        : [],
       responsibilities: opening.responsibilities?.length
         ? opening.responsibilities
         : [""],
@@ -384,7 +379,7 @@ export default function AdminPanel() {
       roleTitle: "",
       department: "",
       location: ["Puducherry"],
-      center: "",
+      center: [],
       experience: "",
       numberOfPositions: "",
       description: "",
@@ -544,16 +539,25 @@ export default function AdminPanel() {
               <h2 className="text-xl font-bold text-gray-900">
                 {editingId ? "Edit Opening" : "Add New Opening"}
               </h2>
-              <button
-                onClick={() => {
-                  setShowAddForm(false);
-                  setEditingId(null);
-                  resetForm();
-                }}
-                className="bg-[#FF0000] p-2 text-white rounded-full"
-              >
-                <X size={20} className=" text-white-400 " />
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={editingId ? handleUpdate : handleAdd}
+                  className="btn-primary"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {editingId ? "Update" : "Add"} Opening
+                </button>
+                <button
+                  onClick={() => {
+                    setShowAddForm(false);
+                    setEditingId(null);
+                    resetForm();
+                  }}
+                  className="bg-[#FF0000] p-2 text-white rounded-full"
+                >
+                  <X size={20} className=" text-white-400 " />
+                </button>
+              </div>
             </div>
 
             {/* Basic Info */}
@@ -598,45 +602,154 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Department
                 </label>
-                <input
-                  type="text"
+                <select
                   className="input-field"
                   value={formData.department}
                   onChange={(e) =>
                     setFormData({ ...formData, department: e.target.value })
                   }
-                />
+                >
+                  <option value="">Select Department</option>
+                  <option value="Teaching">Teaching</option>
+                  <option value="Non Teaching">Non Teaching</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Location (One per line)
+                  Location
                 </label>
-                <textarea
-                  className="input-field"
-                  rows={2}
-                  value={formData.location?.join("\n")}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      location: e.target.value.split("\n"),
-                    })
-                  }
-                  placeholder="e.g. Puducherry"
-                />
+                <div className="flex flex-col gap-2 max-h-40 overflow-y-auto border p-2 rounded">
+                  <label className="flex items-center gap-2 mb-2 pb-2 border-b">
+                    <input
+                      type="checkbox"
+                      className="rounded text-blue-600 focus:ring-blue-500 font-bold"
+                      checked={
+                        locations.length > 0 &&
+                        formData.location?.length === locations.length
+                      }
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFormData({
+                            ...formData,
+                            location: [...locations],
+                          });
+                        } else {
+                          setFormData({ ...formData, location: [] });
+                        }
+                      }}
+                    />
+                    <span className="font-semibold text-sm">Select All</span>
+                  </label>
+                  {locations.map((loc) => (
+                    <label key={loc} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={loc}
+                        checked={formData.location?.includes(loc)}
+                        onChange={(e) => {
+                          const currentLocs = formData.location || [];
+                          let newLocs;
+                          if (e.target.checked) {
+                            newLocs = [...currentLocs, loc];
+                          } else {
+                            newLocs = currentLocs.filter((l) => l !== loc);
+                          }
+                          setFormData({ ...formData, location: newLocs });
+                        }}
+                      />
+                      {loc}
+                    </label>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Center
                 </label>
-                <input
-                  type="text"
-                  className="input-field"
-                  value={formData.center}
-                  onChange={(e) =>
-                    setFormData({ ...formData, center: e.target.value })
-                  }
-                  placeholder="e.g. Main Campus"
-                />
+                <div className="flex flex-col gap-2 max-h-40 overflow-y-auto border p-2 rounded">
+                  {(formData.location || []).map((selectedLoc) => {
+                    const availableCenters = centers[selectedLoc] || [];
+                    if (availableCenters.length === 0) return null;
+                    return (
+                      <div key={selectedLoc}>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="font-semibold text-xs text-gray-500">
+                            {selectedLoc}
+                          </p>
+                          <label className="flex items-center gap-1 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              className="h-3 w-3 rounded text-blue-600 focus:ring-blue-500"
+                              checked={availableCenters.every((c) =>
+                                formData.center?.includes(c)
+                              )}
+                              onChange={(e) => {
+                                const currentCenters =
+                                  (formData.center as string[]) || [];
+                                let newCenters = [...currentCenters];
+
+                                if (e.target.checked) {
+                                  // Add all missing centers from this group
+                                  availableCenters.forEach((c) => {
+                                    if (!newCenters.includes(c)) {
+                                      newCenters.push(c);
+                                    }
+                                  });
+                                } else {
+                                  // Remove all centers from this group
+                                  newCenters = newCenters.filter(
+                                    (c) => !availableCenters.includes(c)
+                                  );
+                                }
+                                setFormData({
+                                  ...formData,
+                                  center: newCenters,
+                                });
+                              }}
+                            />
+                            <span className="text-[10px] text-blue-600 font-medium">
+                              Select All
+                            </span>
+                          </label>
+                        </div>
+                        {availableCenters.map((center) => (
+                          <label
+                            key={center}
+                            className="flex items-center gap-2 ml-2"
+                          >
+                            <input
+                              type="checkbox"
+                              value={center}
+                              checked={formData.center?.includes(center)}
+                              onChange={(e) => {
+                                const currentCenters =
+                                  (formData.center as string[]) || [];
+                                let newCenters;
+                                if (e.target.checked) {
+                                  newCenters = [...currentCenters, center];
+                                } else {
+                                  newCenters = currentCenters.filter(
+                                    (c) => c !== center
+                                  );
+                                }
+                                setFormData({
+                                  ...formData,
+                                  center: newCenters,
+                                });
+                              }}
+                            />
+                            {center}
+                          </label>
+                        ))}
+                      </div>
+                    );
+                  })}
+                  {(!formData.location || formData.location.length === 0) && (
+                    <p className="text-sm text-gray-500 italic">
+                      Select a location first to see available centers.
+                    </p>
+                  )}
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -934,9 +1047,9 @@ export default function AdminPanel() {
                         ? opening.location.join(", ")
                         : opening.location}
                     </p>
-                    <p>
+                    {/* <p>
                       <strong>Center:</strong> {opening.center || "N/A"}
-                    </p>
+                    </p> */}
                     <p>
                       <strong>No.of.Positions:</strong>{" "}
                       {opening.numberOfPositions || "N/A"}

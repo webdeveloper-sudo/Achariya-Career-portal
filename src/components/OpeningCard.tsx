@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MapPin, Building } from "lucide-react";
+import { MapPin, Building, Briefcase, BriefcaseBusiness } from "lucide-react";
 import type { JobOpening } from "../services/jobService";
 
 interface Props {
@@ -14,7 +14,7 @@ export default function JobOpeningsSection({ openings }: Props) {
       {/* =====================
           JOB CARDS (GRID VIEW)
       ====================== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {openings.map((job) => (
           <button
             key={job.id}
@@ -27,19 +27,28 @@ export default function JobOpeningsSection({ openings }: Props) {
             className="border border-gray-200 text-left transition-all p-6 rounded-xl flex flex-col h-full hover:border-gray-400 hover:shadow-md"
           >
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
-                {job.roleTitle}
-              </h3>
+              <div className="flex justify-between items-start">
+                <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                  {job.roleTitle}
+                </h3>
+
+                {job.department === "-" || job.department === "" ? null : (
+                  <span className="flex items-center text-[12px]  text-gray-600">
+                    <Building className="w-3 h-3 mr-1 shrink-0" />
+                    <span className="truncate">{job.department}</span>
+                  </span>
+                )}
+              </div>
+              {/* {!job.center ||
+              job.center.length === 0 ||
+              (job.center.length === 1 &&
+                (job.center[0] === "-" || job.center[0] === "")) ? null : (
+                <p className="text-gray-600 text-[12px] text-gray-600 mb-3">
+                  {job.center.join(", ")}
+                </p>
+              )} */}
 
               <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-4">
-               {
-                job.department === '-'|| job.department === '' ? null : (
-                  <span className="flex items-center">
-                  <Building className="w-4 h-4 mr-1 shrink-0" />
-                  <span className="truncate">{job.department}</span>
-                </span>
-                ) 
-               }
                 <span className="flex items-center">
                   <MapPin className="w-4 h-4 mr-1 shrink-0" />
                   <span className="truncate">
@@ -47,16 +56,23 @@ export default function JobOpeningsSection({ openings }: Props) {
                       ? job.location.join(", ")
                       : job.location}
                   </span>
+                  
                 </span>
+                {job.experience === "-" || job.experience === "" ? null : (
+                  <span className="flex items-center border-l border-gray-400 ps-3">
+                    <BriefcaseBusiness className="w-4 h-4 mr-1 shrink-0" />
+                    <span className="truncate">{job.experience}</span>
+                  </span>
+                )}
               </div>
 
-              <p className="text-sm text-gray-700 line-clamp-3 mb-4">
+              {/* <p className="text-sm text-gray-700 line-clamp-3 mb-4">
                 {job.description}
-              </p>
+              </p> */}
             </div>
 
             <span className="inline-block text-blue-600 font-semibold text-sm mt-auto">
-              View Full Details →
+              Apply Now →
             </span>
           </button>
         ))}

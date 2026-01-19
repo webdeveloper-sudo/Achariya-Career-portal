@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { X, Upload, Loader, AlertTriangle } from "lucide-react";
 import type { JobOpening } from "../services/jobService";
 import { submitApplication } from "../services/applicationService";
+import { campusLocations } from "../data/globaldata";
 import FeedbackModal from "./FeedbackModal";
 
 interface Props {
@@ -49,20 +50,21 @@ export default function ApplyModal({ opening, onClose }: Props) {
   };
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    dob: "",
-    email: "",
-    phone: "",
-    previousCompany: "",
-    previousDOJ: "",
-    lastWorkingDate: "",
-    noticePeriodDays: "",
-    lastWorkingDay: "",
-    currentCTC: "",
-    expectedCTC: "",
-    experience: "",
+    fullName: "Arun Kumar",
+    dob: "1998-06-15",
+    email: "arunkumar@gmail.com",
+    phone: "9876543210",
+    previousCompany: "TechNova Solutions",
+    previousDOJ: "2022-07-01",
+    lastWorkingDate: "2024-12-31",
+    noticePeriodDays: "30",
+    lastWorkingDay: "2025-01-30",
+    currentCTC: "6.5",
+    expectedCTC: "9",
+    experience: "2.5",
     preferredLocation: "",
-    consent: false,
+    preferredCampuses: [] as string[],
+    consent: true,
   });
 
   // Safe location array
@@ -138,6 +140,20 @@ export default function ApplyModal({ opening, onClose }: Props) {
       return;
     }
 
+    // Check if campuses are required but not selected
+    if (
+      (formData.preferredLocation === "Chennai" ||
+        formData.preferredLocation === "Puducherry") &&
+      formData.preferredCampuses.length === 0
+    ) {
+      showModal(
+        "error",
+        "Validation Error",
+        "Please select at least one campus preference"
+      );
+      return;
+    }
+
     if (!formData.consent) {
       showModal(
         "error",
@@ -150,8 +166,12 @@ export default function ApplyModal({ opening, onClose }: Props) {
     setLoading(true);
 
     try {
+      if (!resumeFile) return; // Should be handled by validation above, but typescript needs it
+
       const referenceId = await submitApplication({
         ...formData,
+        preferredLocation: formData.preferredLocation,
+        preferredCampuses: formData.preferredCampuses,
         category: opening.category,
         roleTitle: opening.roleTitle,
         location: openingLocations.join(", "),
@@ -470,6 +490,56 @@ export default function ApplyModal({ opening, onClose }: Props) {
                     ))}
                   </select>
                 </div>
+
+                {/* Nested Campus Checkboxes */}
+                {(formData.preferredLocation === "Chennai" ||
+                  formData.preferredLocation === "Puducherry") &&
+                  campusLocations[formData.preferredLocation] && (
+                    <div className="col-span-1 md:col-span-3 bg-gray-50 p-4 rounded-lg border border-gray-200 mt-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Select Preferred Campus(es) for{" "}
+                        {formData.preferredLocation}{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-48 overflow-y-auto">
+                        {campusLocations[formData.preferredLocation].map(
+                          (campus) => (
+                            <label
+                              key={campus}
+                              className="flex items-center space-x-2 cursor-pointer"
+                            >
+                              <input
+                                type="checkbox"
+                                value={campus}
+                                checked={formData.preferredCampuses.includes(
+                                  campus
+                                )}
+                                onChange={(e) => {
+                                  const current = formData.preferredCampuses;
+                                  let updated;
+                                  if (e.target.checked) {
+                                    updated = [...current, campus];
+                                  } else {
+                                    updated = current.filter(
+                                      (c) => c !== campus
+                                    );
+                                  }
+                                  setFormData({
+                                    ...formData,
+                                    preferredCampuses: updated,
+                                  });
+                                }}
+                                className="rounded text-blue-600 focus:ring-blue-500 h-4 w-4"
+                              />
+                              <span className="text-sm text-gray-700">
+                                {campus}
+                              </span>
+                            </label>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -516,7 +586,7 @@ export default function ApplyModal({ opening, onClose }: Props) {
                 />
                 <span className="text-sm text-gray-700">
                   I confirm that the above details are correct and I agree to be
-                  contacted by Achariya HR team regarding this application.
+                  contacted by ACHARIYA HR team regarding this application.
                 </span>
               </label>
             </div>
@@ -544,11 +614,11 @@ export default function ApplyModal({ opening, onClose }: Props) {
             </div>
             {loading && (
               <div className="flex gap-2 p-3 max-w-[80%] ms-auto justify-end border-b border-yellow-500 bg-yellow-50 pt-2">
-                <AlertTriangle size={20} className="text-yellow-500"/>
+                <AlertTriangle size={20} className="text-yellow-500" />
                 <p className="text-end text-sm text-gray-800 capitalize">
-                Please Don't Refresh Or Leave the tab while submitting Your
-                Application !
-              </p>
+                  Please Don't Refresh Or Leave the tab while submitting Your
+                  Application !
+                </p>
               </div>
             )}
           </form>
