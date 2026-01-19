@@ -43,7 +43,6 @@ export default function CareersHome() {
     fetchCounts();
   }, []);
 
-  const navigate = useNavigate()
   const getCount = (key: keyof typeof counts) => (loading ? "—" : counts[key]);
 
   const totalOpenings = counts.School + counts.College + counts.Corporate;
