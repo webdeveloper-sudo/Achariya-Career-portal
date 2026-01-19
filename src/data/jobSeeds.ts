@@ -8,7 +8,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "ASSISTANT PROFESSOR (CSE)",
     department: "-",
     location: ["Villianur", "Puducherry"],
-    center: "ACHARIYA COLLEGE OF ENGINEERING AND TECHNOLOGY",
+    center: ["ACHARIYA COLLEGE OF ENGINEERING AND TECHNOLOGY"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -41,7 +41,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
       "Puducherry",
       "Chennai (Nolambur, saligramam, valasaravakkam, RK Nagar, Maduravoyal, Thirunagar, Adyar)",
     ],
-    center: "ACHARIYA BALA SIKSHA MANDIR, Thengaithittu / ABSM Chennai",
+    center: ["ACHARIYA BALA SIKSHA MANDIR, Thengaithittu / ABSM Chennai"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -71,7 +71,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "Social Teacher",
     department: "-",
     location: ["Karaikal", "Puducherry"],
-    center: "ACHARIYA SIKSHA MANDIR, Karaikal",
+    center: ["ACHARIYA SIKSHA MANDIR, Karaikal"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -101,7 +101,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "WOW TRAINER",
     department: "-",
     location: ["Puducherry", "Karaikal", "Coimbatore", "Chennai"],
-    center: "-",
+    center: ["-"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -127,7 +127,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "PGT MATHEMATICS",
     department: "-",
     location: ["Villianur", "puducherry"],
-    center: "ACHARIYA SIKSHA MANDIR",
+    center: ["ACHARIYA SIKSHA MANDIR"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -157,7 +157,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "HINDI TEACHER",
     department: "-",
     location: ["Coimbatore", "Puducherry"],
-    center: "ACHARIYA WESTERN GHATS INTERNATIONAL SCHOOL",
+    center: ["ACHARIYA WESTERN GHATS INTERNATIONAL SCHOOL"],
     numberOfPositions: "-",
     experience: "-",
     description:
@@ -190,7 +190,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "Legal Advisor",
     department: "-",
     location: ["Puducherry"],
-    center: "-",
+    center: ["-"],
     numberOfPositions: "-",
     experience: "2–6 years",
     description:
@@ -218,7 +218,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "Communication Head (F)",
     department: "-",
     location: ["Puducherry"],
-    center: "-",
+    center: ["-"],
     numberOfPositions: "-",
     experience: "5–10 years",
     description:
@@ -251,7 +251,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "PRO (Public Relations Officer) & Tele Counselor",
     department: "-",
     location: ["Puducherry", "Ettimadai", "Trichy", "Chennai"],
-    center: "-",
+    center: ["-"],
     numberOfPositions: "-",
     experience: "0-1+ years",
     description:
@@ -282,7 +282,7 @@ export const jobSeeds: Omit<JobOpening, "id">[] = [
     roleTitle: "IT Support",
     department: "-",
     location: ["Puducherry", "Coimbatore", "Erode", "Trichy"],
-    center: "-",
+    center: ["-"],
     numberOfPositions: "-",
     experience: "0-1 years",
     description:

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { MapPin, Building, Briefcase, BriefcaseBusiness } from "lucide-react";
+import { MapPin, Building, BriefcaseBusiness } from "lucide-react";
 import type { JobOpening } from "../services/jobService";
 
 interface Props {
@@ -56,7 +56,6 @@ export default function JobOpeningsSection({ openings }: Props) {
                       ? job.location.join(", ")
                       : job.location}
                   </span>
-                  
                 </span>
                 {job.experience === "-" || job.experience === "" ? null : (
                   <span className="flex items-center border-l border-gray-400 ps-3">
