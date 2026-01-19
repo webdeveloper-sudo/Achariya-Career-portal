@@ -50,21 +50,21 @@ export default function ApplyModal({ opening, onClose }: Props) {
   };
 
   const [formData, setFormData] = useState({
-    fullName: "Arun Kumar",
-    dob: "1998-06-15",
-    email: "arunkumar@gmail.com",
-    phone: "9876543210",
-    previousCompany: "TechNova Solutions",
-    previousDOJ: "2022-07-01",
-    lastWorkingDate: "2024-12-31",
-    noticePeriodDays: "30",
-    lastWorkingDay: "2025-01-30",
-    currentCTC: "6.5",
-    expectedCTC: "9",
-    experience: "2.5",
+    fullName: "",
+    dob: "",
+    email: "",
+    phone: "",
+    previousCompany: "",
+    previousDOJ: "",
+    lastWorkingDate: "",
+    noticePeriodDays: "",
+    lastWorkingDay: "",
+    currentCTC: "",
+    expectedCTC: "",
+    experience: "",
     preferredLocation: "",
     preferredCampuses: [] as string[],
-    consent: true,
+    consent: false,
   });
 
   // Safe location array
