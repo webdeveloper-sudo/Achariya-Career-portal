@@ -34,6 +34,7 @@ export default function JobPostFullDetails() {
 
         if (fetchedJob) {
           setJob(fetchedJob);
+          console.log(fetchedJob);
         } else {
           setError("Job not found.");
         }
@@ -46,6 +47,7 @@ export default function JobPostFullDetails() {
     };
     fetchJob();
   }, [applicationId]);
+  
 
   if (loading) {
     return (
@@ -135,7 +137,8 @@ export default function JobPostFullDetails() {
           {/* Content Body */}
           <div className="p-8 space-y-8">
             {/* Key Details Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6 bg-gray-50 rounded-xl border border-gray-200">
+            <div className="p-6 bg-gray-50 rounded-xl border border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
               <div>
                 <span className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   Experience
@@ -173,6 +176,18 @@ export default function JobPostFullDetails() {
                 </span>
               </div>
             </div>
+             <div className="mt-5">
+                <span className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Center
+                </span>
+                <span className="text-gray-900 font-medium capitalize normal-case">
+                  {job.center
+                    ? job.center.map((center) => center).join(", ")
+                    : "N/A"}
+                </span>
+              </div>
+            </div>
+            
 
             <section className="prose prose-blue max-w-none">
               <h3 className="text-xl font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4">

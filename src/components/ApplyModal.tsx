@@ -15,6 +15,9 @@ export default function ApplyModal({ opening, onClose }: Props) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [experienceType, setExperienceType] = useState<
+    "fresher" | "experienced"
+  >("experienced");
 
   // Modal State
   const [modalConfig, setModalConfig] = useState<{
@@ -304,106 +307,155 @@ export default function ApplyModal({ opening, onClose }: Props) {
             </div>
 
             {/* Employment History */}
+            {/* Experience Level & History */}
             <div className="border-t border-gray-200 pt-6">
               <h3 className="font-bold text-gray-900 mb-4">
-                Employment History
+                Experience Details
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Total Experience (In Years){" "}
-                    <span className="text-red-500">*</span>
-                  </label>
+
+              {/* Experience Type Selection */}
+              <div className="flex gap-6 mb-6">
+                <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                    type="text"
-                    required
-                    className="input-field"
-                    value={formData.experience}
-                    placeholder="e.g. 2"
-                    onChange={(e) => {
-                      if (validateExperience(e.target.value)) {
-                        setFormData({
-                          ...formData,
-                          experience: e.target.value,
-                        });
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Previous Company <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your Most Recent Company"
-                    required
-                    className="input-field"
-                    value={formData.previousCompany}
-                    onChange={(e) => {
-                      if (validateName(e.target.value)) {
-                        setFormData({
-                          ...formData,
-                          previousCompany: e.target.value,
-                        });
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Date of Joining (Previous Company){" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    className="input-field"
-                    value={formData.previousDOJ}
-                    onChange={(e) =>
-                      setFormData({ ...formData, previousDOJ: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Last Working Date <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    className="input-field"
-                    value={formData.lastWorkingDate}
-                    onChange={(e) =>
+                    type="radio"
+                    name="experienceType"
+                    className="w-4 h-4 text-blue-600"
+                    checked={experienceType === "fresher"}
+                    onChange={() => {
+                      setExperienceType("fresher");
                       setFormData({
                         ...formData,
-                        lastWorkingDate: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Notice Period (Days) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    placeholder="e.g. 15"
-                    min="0"
-                    className="input-field"
-                    value={formData.noticePeriodDays}
-                    onChange={(e) => {
-                      if (validateNumber(e.target.value)) {
-                        setFormData({
-                          ...formData,
-                          noticePeriodDays: e.target.value,
-                        });
-                      }
+                        experience: "0",
+                        currentCTC: "0",
+                        previousCompany: "",
+                        previousDOJ: "",
+                        lastWorkingDate: "",
+                        noticePeriodDays: "",
+                      });
                     }}
                   />
-                </div>
-                {/* {parseInt(formData.noticePeriodDays || "0") > 0 && (
+                  <span className="font-medium text-gray-700">Fresher</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="experienceType"
+                    className="w-4 h-4 text-blue-600"
+                    checked={experienceType === "experienced"}
+                    onChange={() => {
+                      setExperienceType("experienced");
+                      setFormData({
+                        ...formData,
+                        experience: "",
+                        currentCTC: "",
+                      });
+                    }}
+                  />
+                  <span className="font-medium text-gray-700">Experienced</span>
+                </label>
+              </div>
+
+              {experienceType === "experienced" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Total Experience (In Years){" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="input-field"
+                      value={formData.experience}
+                      placeholder="e.g. 2"
+                      onChange={(e) => {
+                        if (validateExperience(e.target.value)) {
+                          setFormData({
+                            ...formData,
+                            experience: e.target.value,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Previous Company <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Your Most Recent Company"
+                      required
+                      className="input-field"
+                      value={formData.previousCompany}
+                      onChange={(e) => {
+                        if (validateName(e.target.value)) {
+                          setFormData({
+                            ...formData,
+                            previousCompany: e.target.value,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Date of Joining (Previous Company){" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      className="input-field"
+                      value={formData.previousDOJ}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          previousDOJ: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Last Working Date <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      className="input-field"
+                      value={formData.lastWorkingDate}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          lastWorkingDate: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Notice Period (Days){" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      placeholder="e.g. 15"
+                      min="0"
+                      className="input-field"
+                      value={formData.noticePeriodDays}
+                      onChange={(e) => {
+                        if (validateNumber(e.target.value)) {
+                          setFormData({
+                            ...formData,
+                            noticePeriodDays: e.target.value,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                  {/* {parseInt(formData.noticePeriodDays || "0") > 0 && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Last Working Day
@@ -421,7 +473,8 @@ export default function ApplyModal({ opening, onClose }: Props) {
                     />
                   </div>
                 )} */}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Compensation & Preference */}
@@ -430,24 +483,26 @@ export default function ApplyModal({ opening, onClose }: Props) {
                 Compensation & Preference
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Current CTC (in ₹ Lakhs){" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    required
-                    step="0.01"
-                    placeholder="e.g. 2.5"
-                    min="0"
-                    className="input-field"
-                    value={formData.currentCTC}
-                    onChange={(e) =>
-                      setFormData({ ...formData, currentCTC: e.target.value })
-                    }
-                  />
-                </div>
+                {experienceType === "experienced" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Current CTC (in ₹ Lakhs){" "}
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      step="0.01"
+                      placeholder="e.g. 2.5"
+                      min="0"
+                      className="input-field"
+                      value={formData.currentCTC}
+                      onChange={(e) =>
+                        setFormData({ ...formData, currentCTC: e.target.value })
+                      }
+                    />
+                  </div>
+                )}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Expected CTC (in ₹ Lakhs){" "}

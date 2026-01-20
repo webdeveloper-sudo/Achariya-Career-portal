@@ -20,7 +20,8 @@ export const centers: Record<string, string[]> = {
     "ASM THAVALAKUPPAM",
     "ASM MOOLAKULAM",
     "AKLAVYA REDDIARPALAYAM",
-    "ASM MUTHIALPET",
+    "ASM MUTHIRAIYARPALAYAM",
+    "ASTHM ANNA NAGAR",
     "ABSM GORIMEDU",
     "ABSM LAWSPET",
     "ABSM MUTHIALPET",
@@ -32,6 +33,7 @@ export const centers: Record<string, string[]> = {
     "SSV VILLIANUR",
     "AASC",
     "ACET",
+    
   ],
   Karaikal: ["ASM KARAIKAL"],
   Coimbatore: ["ACHARIYA WESTERN GHATS"],

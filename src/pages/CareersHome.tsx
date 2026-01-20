@@ -153,7 +153,7 @@ export default function CareersHome() {
         <section className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
           {[
             { label: "Institutions", value: "36+" },
-            { label: "Employees", value: "2500+" },
+            { label: "Employees", value: "1500+" },
             { label: "Years of Excellence", value: "25+" },
             { label: "Open Positions", value: totalOpenings },
           ].map((item, i) => (

@@ -15,6 +15,7 @@ import {
   Building,
   Filter,
   ArrowLeft,
+  Loader,
 } from "lucide-react";
 import { auth } from "../firebase";
 import {
@@ -34,6 +35,7 @@ export default function AdminPanel() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
 
   // Modal State
@@ -301,14 +303,18 @@ export default function AdminPanel() {
       "Are you sure you want to delete this job opening? This action cannot be undone.",
       async () => {
         try {
+          setDeleteLoading(true);
           await jobService.deleteJob(id);
           setOpenings((prev) => prev.filter((o) => o.id !== id));
           // Slight delay to allow modal to close/reopen or just show success
           setTimeout(() => {
+            setDeleteLoading(false);
             showModal("success", "Deleted", "Job opening has been deleted.");
           }, 300);
         } catch (error) {
           showModal("error", "Error", "Failed to delete job.");
+        } finally{
+          setDeleteLoading(false);
         }
       }
     );
@@ -390,12 +396,20 @@ export default function AdminPanel() {
     });
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
+   if (loading) {
+      return (
+         <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
+          <Loader className="w-8 h-8 animate-spin text-teal-600" />
+        </div>
+      );
+    }
+   if (deleteLoading) {
+      return (
+         <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
+          <Loader className="w-8 h-8 animate-spin text-teal-600" />
+        </div>
+      );
+    }
 
   if (!user) {
     return (
@@ -571,6 +585,7 @@ export default function AdminPanel() {
                 </label>
                 <select
                   className="input-field"
+                  required
                   value={formData.category}
                   onChange={(e) =>
                     setFormData({
@@ -591,6 +606,7 @@ export default function AdminPanel() {
                 </label>
                 <input
                   type="text"
+                  required
                   className="input-field"
                   value={formData.roleTitle}
                   onChange={(e) =>
@@ -603,6 +619,7 @@ export default function AdminPanel() {
                   Department
                 </label>
                 <select
+                  required
                   className="input-field"
                   value={formData.department}
                   onChange={(e) =>
@@ -621,6 +638,7 @@ export default function AdminPanel() {
                 <div className="flex flex-col gap-2 max-h-40 overflow-y-auto border p-2 rounded">
                   <label className="flex items-center gap-2 mb-2 pb-2 border-b">
                     <input
+                    required
                       type="checkbox"
                       className="rounded text-blue-600 focus:ring-blue-500 font-bold"
                       checked={
@@ -679,6 +697,7 @@ export default function AdminPanel() {
                           <label className="flex items-center gap-1 cursor-pointer">
                             <input
                               type="checkbox"
+                              
                               className="h-3 w-3 rounded text-blue-600 focus:ring-blue-500"
                               checked={availableCenters.every((c) =>
                                 formData.center?.includes(c)
@@ -791,6 +810,7 @@ export default function AdminPanel() {
               </label>
               <textarea
                 className="input-field"
+                required
                 rows={3}
                 value={formData.description}
                 onChange={(e) =>
