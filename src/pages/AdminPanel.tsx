@@ -181,7 +181,7 @@ export default function AdminPanel() {
     type: "success" | "error" | "info" | "confirmation",
     title: string,
     message: string,
-    onConfirm?: () => void
+    onConfirm?: () => void,
   ) => {
     setModalConfig({
       isOpen: true,
@@ -205,7 +205,7 @@ export default function AdminPanel() {
         showModal(
           "success",
           "Welcome!",
-          "Account created! You are now logged in."
+          "Account created! You are now logged in.",
         );
       } else {
         await signInWithEmailAndPassword(auth, email, password);
@@ -228,7 +228,79 @@ export default function AdminPanel() {
     return `AWCE-${random}`;
   };
 
+  const validateForm = () => {
+    if (!formData.roleTitle?.trim()) {
+      showModal("error", "Validation Error", "Role Title is required");
+      return false;
+    }
+    if (!formData.department?.trim()) {
+      showModal("error", "Validation Error", "Department is required");
+      return false;
+    }
+    if (!formData.location || formData.location.length === 0) {
+      showModal(
+        "error",
+        "Validation Error",
+        "At least one Location is required",
+      );
+      return false;
+    }
+    // Center is optional as it depends on Location
+    if (!formData.numberOfPositions?.toString().trim()) {
+      showModal("error", "Validation Error", "Number of Positions is required");
+      return false;
+    }
+    if (!formData.experience?.trim()) {
+      showModal("error", "Validation Error", "Experience is required");
+      return false;
+    }
+    if (!formData.description?.trim()) {
+      showModal("error", "Validation Error", "Job Description is required");
+      return false;
+    }
+
+    // Check arrays - filter empty strings first
+    const qualifications = formData.qualifications?.filter((q) => q.trim());
+    if (!qualifications || qualifications.length === 0) {
+      showModal(
+        "error",
+        "Validation Error",
+        "At least one Qualification is required",
+      );
+      return false;
+    }
+
+    const skills = formData.skills?.filter((s) => s.trim());
+    if (!skills || skills.length === 0) {
+      showModal("error", "Validation Error", "At least one Skill is required");
+      return false;
+    }
+
+    const responsibilities = formData.responsibilities?.filter((r) => r.trim());
+    if (!responsibilities || responsibilities.length === 0) {
+      showModal(
+        "error",
+        "Validation Error",
+        "At least one Responsibility is required",
+      );
+      return false;
+    }
+
+    const eligibility = formData.eligibility?.filter((e) => e.trim());
+    if (!eligibility || eligibility.length === 0) {
+      showModal(
+        "error",
+        "Validation Error",
+        "At least one Eligibility criterion is required",
+      );
+      return false;
+    }
+
+    return true;
+  };
+
   const handleAdd = async () => {
+    if (!validateForm()) return;
     try {
       const timestamp = new Date().toISOString();
       const cleanLocations =
@@ -265,6 +337,7 @@ export default function AdminPanel() {
 
   const handleUpdate = async () => {
     if (!editingId) return;
+    if (!validateForm()) return;
     try {
       const cleanLocations =
         formData.location?.filter((l) => l.trim().length > 0) || [];
@@ -313,10 +386,10 @@ export default function AdminPanel() {
           }, 300);
         } catch (error) {
           showModal("error", "Error", "Failed to delete job.");
-        } finally{
+        } finally {
           setDeleteLoading(false);
         }
-      }
+      },
     );
   };
 
@@ -366,8 +439,8 @@ export default function AdminPanel() {
       center: Array.isArray(opening.center)
         ? opening.center
         : opening.center
-        ? [opening.center as unknown as string]
-        : [],
+          ? [opening.center as unknown as string]
+          : [],
       responsibilities: opening.responsibilities?.length
         ? opening.responsibilities
         : [""],
@@ -396,20 +469,20 @@ export default function AdminPanel() {
     });
   };
 
-   if (loading) {
-      return (
-         <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
-          <Loader className="w-8 h-8 animate-spin text-teal-600" />
-        </div>
-      );
-    }
-   if (deleteLoading) {
-      return (
-         <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
-          <Loader className="w-8 h-8 animate-spin text-teal-600" />
-        </div>
-      );
-    }
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-teal-600" />
+      </div>
+    );
+  }
+  if (deleteLoading) {
+    return (
+      <div className="min-h-screen bg-white/80 container mx-auto flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-teal-600" />
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -467,8 +540,8 @@ export default function AdminPanel() {
               {authLoading
                 ? "Processing..."
                 : isSignup
-                ? "Create Account"
-                : "Login"}
+                  ? "Create Account"
+                  : "Login"}
             </button>
           </form>
 
@@ -638,7 +711,7 @@ export default function AdminPanel() {
                 <div className="flex flex-col gap-2 max-h-40 overflow-y-auto border p-2 rounded">
                   <label className="flex items-center gap-2 mb-2 pb-2 border-b">
                     <input
-                    required
+                      required
                       type="checkbox"
                       className="rounded text-blue-600 focus:ring-blue-500 font-bold"
                       checked={
@@ -697,10 +770,9 @@ export default function AdminPanel() {
                           <label className="flex items-center gap-1 cursor-pointer">
                             <input
                               type="checkbox"
-                              
                               className="h-3 w-3 rounded text-blue-600 focus:ring-blue-500"
                               checked={availableCenters.every((c) =>
-                                formData.center?.includes(c)
+                                formData.center?.includes(c),
                               )}
                               onChange={(e) => {
                                 const currentCenters =
@@ -717,7 +789,7 @@ export default function AdminPanel() {
                                 } else {
                                   // Remove all centers from this group
                                   newCenters = newCenters.filter(
-                                    (c) => !availableCenters.includes(c)
+                                    (c) => !availableCenters.includes(c),
                                   );
                                 }
                                 setFormData({
@@ -748,7 +820,7 @@ export default function AdminPanel() {
                                   newCenters = [...currentCenters, center];
                                 } else {
                                   newCenters = currentCenters.filter(
-                                    (c) => c !== center
+                                    (c) => c !== center,
                                   );
                                 }
                                 setFormData({
@@ -1046,8 +1118,8 @@ export default function AdminPanel() {
                           opening.category === "School"
                             ? "bg-blue-100 text-blue-700"
                             : opening.category === "College"
-                            ? "bg-purple-100 text-purple-700"
-                            : "bg-teal-100 text-teal-700"
+                              ? "bg-purple-100 text-purple-700"
+                              : "bg-teal-100 text-teal-700"
                         }`}
                       >
                         {opening.category}

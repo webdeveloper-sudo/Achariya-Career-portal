@@ -32,6 +32,10 @@ function App() {
           element={<CategoryOpenings category="Corporate" />}
         />
         <Route
+          path="/all-openings"
+          element={<CategoryOpenings category="All" />}
+        />
+        <Route
           path="/:category/:applicationId"
           element={<JobPostFullDetails />}
         />

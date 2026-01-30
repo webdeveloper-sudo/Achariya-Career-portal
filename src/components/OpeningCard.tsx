@@ -33,7 +33,9 @@ export default function JobOpeningsSection({ openings }: Props) {
                 </h3>
 
                 {job.department === "-" || job.department === "" ? null : (
-                  <span className="flex items-center text-[12px]  text-gray-600">
+                  <span
+                    className={`flex items-center text-[12px] ${job.department === "teaching" || job.department === "Teaching" ? "text-teal-600" : "text-[#CE2580]"}`}
+                  >
                     <Building className="w-3 h-3 mr-1 shrink-0" />
                     <span className="truncate">{job.department}</span>
                   </span>

@@ -14,7 +14,7 @@ import { jobService, type JobOpening } from "../services/jobService";
 import OpeningCard from "../components/OpeningCard";
 
 interface Props {
-  category: "School" | "College" | "Corporate" | "Others";
+  category: "School" | "College" | "Corporate" | "Others" | "All";
 }
 
 type DateRange = "all" | "7days" | "30days" | "6months";
@@ -34,7 +34,11 @@ export default function CategoryOpenings({ category }: Props) {
       try {
         setLoading(true);
         const allJobs = await jobService.getAllJobs();
-        setOpenings(allJobs.filter((job) => job.category === category));
+        if (category === "All") {
+          setOpenings(allJobs);
+        } else {
+          setOpenings(allJobs.filter((job) => job.category === category));
+        }
         console.log(allJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -52,7 +56,7 @@ export default function CategoryOpenings({ category }: Props) {
 
   const locations = useMemo(() => {
     const allLocs = openings.flatMap((j) =>
-      Array.isArray(j.location) ? j.location : [j.location]
+      Array.isArray(j.location) ? j.location : [j.location],
     );
     return Array.from(new Set(allLocs)).sort();
   }, [openings]);
@@ -112,10 +116,11 @@ export default function CategoryOpenings({ category }: Props) {
   }, [openings, searchQuery, selectedDept, selectedLoc, dateRange]);
 
   const categoryColors = {
-    School: "blue-500",
-    College: "purple-500",
+    School: "blue-600",
+    College: "teal-700",
     Corporate: "teal-500",
     Others: "gray-500",
+    All: "purple-600",
   };
 
   const clearFilters = () => {
@@ -154,27 +159,27 @@ export default function CategoryOpenings({ category }: Props) {
       <header
         className={`text-${categoryColors[category]}  container  px-4 mx-auto `}
       >
-       <div className="bg-gray-200 p-3 rounded-xl">
-         <div className="container mx-auto bg-gray-100  rounded-2xl shadow-lg px-4 sm:px-6 lg:px-8 pt-8 pb-10">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
-              <img
-                src="/logo.png"
-                alt="ACHARIYA"
-                className="h-14 w-14 object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                {category} Openings
-              </h1>
-              <p className="text-gray-600/90 text-lg mt-1 font-medium">
-                {openings.length} positions available
-              </p>
+        <div className="bg-gray-200 p-3 rounded-xl">
+          <div className="container mx-auto bg-gray-100  rounded-2xl shadow-lg px-4 sm:px-6 lg:px-8 pt-8 pb-10">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                <img
+                  src="/logo.png"
+                  alt="ACHARIYA"
+                  className="h-14 w-14 object-contain"
+                />
+              </div>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                  {category} Openings
+                </h1>
+                <p className="text-gray-600/90 text-lg mt-1 font-medium">
+                  {openings.length} positions available
+                </p>
+              </div>
             </div>
           </div>
         </div>
-       </div>
       </header>
 
       {/* Main Content */}
